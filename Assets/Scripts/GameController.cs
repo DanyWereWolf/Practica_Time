@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +8,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private Text pin_1;
     [SerializeField] private Text pin_2;
     [SerializeField] private Text pin_3;
-    [SerializeField] private int pinNumber_1; 
-    [SerializeField] private int pinNumber_2;
-    [SerializeField] private int pinNumber_3; 
+    [SerializeField] public int pinNumber_1;
+    [SerializeField] public int pinNumber_2;
+    [SerializeField] public int pinNumber_3;
 
     [Header("Время")]
     [SerializeField] private Text time;
@@ -33,24 +34,30 @@ public class GameController : MonoBehaviour
     }
     public void Update()
     {
+        //---Ограничение--- 
+        if (pinNumber_1 >= 10) pinNumber_1 = 10;
+        if (pinNumber_2 >= 10) pinNumber_2 = 10;
+        if (pinNumber_3 >= 10) pinNumber_3 = 10;
+        if (pinNumber_1 <= 0) pinNumber_1 = 0;
+        if (pinNumber_2 <= 0) pinNumber_2 = 0;
+        if (pinNumber_3 <= 0) pinNumber_3 = 0;
+       
         pin_1.text = pinNumber_1.ToString();
         pin_2.text = pinNumber_2.ToString();
         pin_3.text = pinNumber_3.ToString();
         timeNumber_ -= Time.deltaTime;
         time.text = Mathf.Round(timeNumber_).ToString();
 
-        if (pinNumber_1 == 5 && pinNumber_2 ==5 && pinNumber_3 ==5)
+        if (pinNumber_1 == 5 && pinNumber_2 == 5 && pinNumber_3 == 5)
         {
             WinPannel.SetActive(true);
             Time.timeScale = 0f;
         }
-
-        if(timeNumber_ <= 0f)
+        if (timeNumber_ <= 0f)
         {
             LosPannel.SetActive(true);
             Time.timeScale = 0f;
         }
-      
     }
     public void onClickPinBatton_drill()
     {
